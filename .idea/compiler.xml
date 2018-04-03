@@ -7,11 +7,14 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="spendex-core" />
+        <module name="spendex-web" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="spendex-aggregator" target="1.5" />
       <module name="spendex-core" target="1.8" />
+      <module name="spendex-parent" target="1.8" />
+      <module name="spendex-web" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

@@ -4,6 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/spendex-aggregator.iml" filepath="$PROJECT_DIR$/spendex-aggregator.iml" />
       <module fileurl="file://$PROJECT_DIR$/spendex-core/spendex-core.iml" filepath="$PROJECT_DIR$/spendex-core/spendex-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spendex-parent/spendex-parent.iml" filepath="$PROJECT_DIR$/spendex-parent/spendex-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spendex-web/spendex-web.iml" filepath="$PROJECT_DIR$/spendex-web/spendex-web.iml" />
     </modules>
   </component>
 </project>
