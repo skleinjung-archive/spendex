@@ -1,11 +1,44 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
+<div class="topBar">
+  <h1>{{title}}</h1>
 </div>
 
-<app-transactions></app-transactions>
+<!--<nav>-->
+  <!--<a *ngIf="getUserProfile() != null" routerLink="/open-games" routerLinkActive="active">Open Games</a>-->
+  <!--<a routerLink="/games" routerLinkActive="active">Active Games</a>-->
+  <!--<a routerLink="/configuration" routerLinkActive="active">Configuration</a>-->
+<!--</nav>-->
+
+<nav>
+  <div>
+    <a routerLink="/transactions" routerLinkActive="active">
+      Transactions
+    </a>
+  </div>
+  <div>
+    <a routerLink="/upload" routerLinkActive="active">
+      Upload
+    </a>
+  </div>
+  <div>
+    <a>
+      This Month
+    </a>
+  </div>
+  <div>
+    <a>
+      Rules
+    </a>
+  </div>
+  <div>
+    <a>
+      Configuration
+    </a>
+  </div>
+</nav>
+
+<div class="mainContent">
+  <router-outlet></router-outlet>
+</div>
 
 
 

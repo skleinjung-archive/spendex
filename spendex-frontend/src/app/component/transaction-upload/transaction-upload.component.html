@@ -1,0 +1,11 @@
+<h2>Upload Transaction File</h2>
+
+<app-file-upload [fileHandler]="fileHandler"></app-file-upload>
+
+<div *ngIf="result">
+  <h2>Results</h2>
+
+  <div class="resultDetails" [ngClass]="{success: 'Success' === result.status, error: 'Error' === result.status}">
+    {{result.message}}
+  </div>
+</div>

@@ -1,5 +1,7 @@
 import {Component, HostListener, Input, OnInit} from '@angular/core';
 import {TransactionService} from "../../service/transaction.service";
+import {MessageService} from "../../service/message-service";
+import {FileHandler} from "./file-handler";
 
 @Component({
   selector: 'app-file-upload',
@@ -10,8 +12,11 @@ export class FileUploadComponent implements OnInit {
 
   dragAreaClass: string = 'dragarea';
   @Input() maxFiles: number = 1;
+  @Input() fileHandler: FileHandler;
 
-  constructor(private transactionService: TransactionService) {}
+  constructor(
+    private transactionService: TransactionService
+  ) {}
 
   ngOnInit() { }
 
@@ -52,8 +57,7 @@ export class FileUploadComponent implements OnInit {
     // throw "up: " + files.length;
     console.debug("files length: " + files.length);
     if (files.length > 0) {
-      this.transactionService.uploadFiles(files)
-        .subscribe(resp => { /* handle success */ });
+      this.fileHandler.handleFiles(files);
     }
   }
 

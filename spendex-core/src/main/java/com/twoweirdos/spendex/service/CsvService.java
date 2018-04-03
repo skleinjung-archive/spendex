@@ -38,6 +38,7 @@ public class CsvService {
                 emitter.onNext(createRecord(row, recordClass));
             }
 
+            emitter.onComplete();
             parser.close();
         });
     }

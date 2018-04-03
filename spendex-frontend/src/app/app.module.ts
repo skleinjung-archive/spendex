@@ -7,17 +7,21 @@ import { TransactionsComponent } from './component/transactions/transactions.com
 import { FileUploadComponent } from './component/file-upload/file-upload.component';
 import {TransactionService} from "./service/transaction.service";
 import {HttpClientModule} from "@angular/common/http";
+import { TransactionUploadComponent } from './component/transaction-upload/transaction-upload.component';
+import {AppRoutingModule} from "./app-routing.module";
 
 
 @NgModule({
   declarations: [
     AppComponent,
     TransactionsComponent,
-    FileUploadComponent
+    FileUploadComponent,
+    TransactionUploadComponent
   ],
   imports: [
     BrowserModule,
-    HttpClientModule
+    HttpClientModule,
+    AppRoutingModule
   ],
   providers: [TransactionService],
   bootstrap: [AppComponent]

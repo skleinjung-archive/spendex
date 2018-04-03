@@ -1,0 +1,49 @@
+.topBar {
+  background-color: #408e2f;
+  color: rgba(0, 0, 0, 0.5);
+  margin: 0;
+  padding: 2px 5px;
+}
+.topBar h1 {
+  margin: 0;
+  padding: 0;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.mainContent {
+  margin: 0 8px 8px 8px;
+}
+
+nav {
+  text-align: center;
+  border-bottom: 1px solid #7f6424;
+  padding: 1px 0;
+}
+/* clearfix */
+nav:after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+nav div {
+  float: left;
+  width: 20%;
+}
+nav a {
+  position: relative;
+  display: block;
+  margin: 2px 1px;
+  background-color: #ffd46e;
+  color: #534014;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  line-height: 24px;
+  font-size: 14px;
+}
+nav a.active {
+  background: #7f6424;
+  color: #ffd46e;
+}

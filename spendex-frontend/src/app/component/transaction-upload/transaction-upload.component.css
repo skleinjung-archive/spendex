@@ -1,0 +1,15 @@
+.resultDetails {
+  border: 1px solid;
+  padding: 20px;
+}
+
+.success {
+  color: #4F8A10;
+  border-color: #4F9A10;
+  background-color: #DFF2BF;
+}
+.error {
+  color: #D8000C;
+  border-color: #D8000C;
+  background-color: #FFBABA;
+}
