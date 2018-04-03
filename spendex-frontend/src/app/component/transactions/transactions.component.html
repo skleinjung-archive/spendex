@@ -1,3 +1,53 @@
+<h2>Options</h2>
+
+<div class="options">
+  <label>Month:</label>
+  <select [(ngModel)]="selectedMonth" (change)="getTransactions()">
+    <option value="0">January</option>
+    <option value="1">February</option>
+    <option value="2">March</option>
+    <option value="3">April</option>
+    <option value="4">May</option>
+    <option value="5">June</option>
+    <option value="6">July</option>
+    <option value="7">August</option>
+    <option value="8">September</option>
+    <option value="9">October</option>
+    <option value="10">November</option>
+    <option value="11">December</option>
+  </select>
+
+  <label>Year:</label>
+  <select [(ngModel)]="selectedYear" (change)="getTransactions()">
+    <option *ngFor="let year of getYears()">{{year}}</option>
+  </select>
+</div>
+
 <h2>Transactions</h2>
 
+<!--<div class="loading" *ngIf="loading">-->
+  <!--<img src="../../../assets/svg/spinner.svg"/>-->
+<!--</div>-->
 
+<div *ngIf="transactions && transactions.length > 0">
+  <table>
+    <thead>
+      <tr>
+        <th (click)="sortBy('date')" [ngClass]="{asc: sortColumn === 'date' && !descending, desc: sortColumn === 'date' && descending}">Date</th>
+        <th (click)="sortBy('amount')" [ngClass]="{asc: sortColumn === 'amount' && !descending, desc: sortColumn === 'amount' && descending}">Amount</th>
+        <th (click)="sortBy('description')" [ngClass]="{asc: sortColumn === 'description' && !descending, desc: sortColumn === 'description' && descending}">Description</th>
+      </tr>
+    </thead>
+    <tbody *ngIf="transactions">
+      <tr *ngFor="let transaction of transactions">
+        <td>{{transaction.date | date:'MM/dd/yyyy'}}</td>
+        <td>{{transaction.amount | currency}}</td>
+        <td>{{transaction.description}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="no-results" *ngIf="!transactions || transactions.length === 0">
+  No results found.
+</div>

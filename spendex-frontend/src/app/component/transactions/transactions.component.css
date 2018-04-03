@@ -1,0 +1,38 @@
+.loading {
+  margin: 15px;
+}
+
+.options {
+  border: 1px solid #221138;
+  background-color: #7C53AE;
+  padding: 20px;
+}
+.options select {
+  margin-right: 25px;
+}
+
+th {
+  cursor: pointer;
+  padding: 4px 32px;
+  background-color: #7c53ae;
+  color: #221138;
+}
+td {
+  padding: 4px;
+}
+
+th.asc {
+  background: #7c53ae url('../../../assets/img/sort-asc.png') no-repeat right 8px center;
+
+}
+th.desc {
+  background: #7c53ae url('../../../assets/img/sort-desc.png') no-repeat right 8px center;
+}
+
+.no-results {
+  color: #221138;
+  padding: 20px;
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+}

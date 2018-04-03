@@ -9,7 +9,7 @@ body {
 
 h2, h3 {
   color: #221139;
-  margin: 0.5em 0 0.3em;
+  margin: 1em 0 0.3em;
 }
 h2 {
   font-size: 18px;
@@ -17,4 +17,9 @@ h2 {
 }
 h3 {
   font-size: 12px;
+}
+
+label {
+  color: #221138;
+  font-weight: bold;
 }

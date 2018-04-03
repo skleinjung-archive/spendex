@@ -9,6 +9,7 @@ import {TransactionService} from "./service/transaction.service";
 import {HttpClientModule} from "@angular/common/http";
 import { TransactionUploadComponent } from './component/transaction-upload/transaction-upload.component';
 import {AppRoutingModule} from "./app-routing.module";
+import {FormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -20,6 +21,7 @@ import {AppRoutingModule} from "./app-routing.module";
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     HttpClientModule,
     AppRoutingModule
   ],

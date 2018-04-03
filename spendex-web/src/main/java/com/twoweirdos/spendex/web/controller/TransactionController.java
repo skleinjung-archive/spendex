@@ -6,21 +6,26 @@ import com.twoweirdos.spendex.model.UploadedFile;
 import com.twoweirdos.spendex.repository.TransactionRepository;
 import com.twoweirdos.spendex.repository.UploadedFileRepository;
 import com.twoweirdos.spendex.service.CsvService;
+import com.twoweirdos.spendex.web.model.TransactionView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static java.time.temporal.TemporalAdjusters.lastDayOfMonth;
 
 /**
  * @author Sean Kleinjung
@@ -44,6 +49,35 @@ public class TransactionController {
 
         Assert.notNull(transactionRepository, "transactionRepository cannot be null");
         this.transactionRepository = transactionRepository;
+    }
+
+    @GetMapping
+    public List<TransactionView> findAll(@RequestParam(name = "month", required = false, defaultValue = "-1") int month,
+                                         @RequestParam(name = "year", required = false) int year,
+                                         @RequestParam(name = "sortColumn", required = false) String sortColumn,
+                                         @RequestParam(name = "descending", required = false) boolean descending) {
+        if (sortColumn == null || "".equals(sortColumn.trim())) {
+            sortColumn = "date";
+        }
+
+        Calendar currentCalendar = Calendar.getInstance();
+        currentCalendar.setTime(new Date());
+        if (month == -1) {
+            month = currentCalendar.get(Calendar.MONTH);
+        }
+        if (year == 0) {
+            year = currentCalendar.get(Calendar.YEAR);
+        }
+
+        LocalDateTime start = LocalDateTime.of(year, month + 1, 1, 0, 0);
+        LocalDateTime end = start.with(lastDayOfMonth());
+
+        Date startDate = Date.from(start.atZone(ZoneId.systemDefault()).toInstant());
+        Date endDate = Date.from(end.atZone(ZoneId.systemDefault()).toInstant());
+
+        Sort sort = new Sort(descending ? Sort.Direction.DESC : Sort.Direction.ASC, sortColumn);
+        List<Transaction> transactions = transactionRepository.findByDateBetween(startDate, endDate, sort);
+        return transactions.stream().map(TransactionView::new).collect(Collectors.toList());
     }
 
     @PostMapping
