@@ -6,6 +6,8 @@ import {Observable} from "rxjs/Observable";
 @Injectable()
 export class TransactionService {
 
+  private _uploadUrl = 'api/transactions';
+
   constructor(private http: HttpClient) { }
 
   public uploadFiles(filesToUpload: File[]): Observable<TransactionUploadResult> {
@@ -15,6 +17,6 @@ export class TransactionService {
       formData.append("files", filesToUpload[i], filesToUpload[i].name);
     }
 
-    return this.http.post<TransactionUploadResult>("http://localhost:4200/api/transactions", formData);
+    return this.http.post<TransactionUploadResult>(this._uploadUrl, formData);
   }
 }

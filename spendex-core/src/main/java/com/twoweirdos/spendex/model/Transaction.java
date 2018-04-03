@@ -1,19 +1,25 @@
 package com.twoweirdos.spendex.model;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
 
 /**
  * @author Sean Kleinjung
  */
+@Entity
+@Table(name = "spendex_transaction")
 public class Transaction {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private UploadedFile uploadedFile;
+
+    @Column(name = "transaction_date")
     private Date date;
+
     private BigDecimal amount;
     private String description;
     private String category;
@@ -24,6 +30,22 @@ public class Transaction {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public UploadedFile getUploadedFile() {
+        return uploadedFile;
+    }
+
+    public void setUploadedFile(UploadedFile uploadedFile) {
+        if (this.uploadedFile != null) {
+            this.uploadedFile.removeTransaction(this);
+        }
+
+        this.uploadedFile = uploadedFile;
+
+        if (this.uploadedFile != null) {
+            this.uploadedFile.addTransaction(this);
+        }
     }
 
     public Date getDate() {
