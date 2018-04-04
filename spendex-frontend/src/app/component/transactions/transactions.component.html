@@ -23,58 +23,66 @@
   </select>
 </div>
 
-<div *ngIf="transactions && transactions.length > 0">
+<div [hidden]="!transactions || transactions.length === 0">
   <h2>Summary</h2>
 
-  <h3>By Week</h3>
-  <table *ngIf="transactions && transactions.length > 0">
-    <thead>
-      <tr>
-        <th class="short">Week</th>
-        <th class="short">Transactions</th>
-        <th class="currency">Total</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let summary of getWeekSummaries()">
-        <td class="short">Week {{summary.week}}</td>
-        <td class="short">{{summary.transactions}}</td>
-        <td class="currency">{{summary.total | currency}}</td>
-      </tr>
-    </tbody>
-    <tfoot>
-      <tr>
-        <td class="short">Total</td>
-        <td class="short">{{getTotals().transactions}}</td>
-        <td class="currency">{{getTotals().total | currency}}</td>
-      </tr>
-    </tfoot>
-  </table>
+  <div class="column-container">
+    <div class="column">
+      <h3>By Week</h3>
+      <table>
+        <thead>
+        <tr>
+          <th class="short">Week</th>
+          <th class="short">Transactions</th>
+          <th class="currency">Total</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let summary of getWeekSummaries()">
+          <td class="short">Week {{summary.week}}</td>
+          <td class="short">{{summary.transactions}}</td>
+          <td class="currency">{{summary.total | currency}}</td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+          <td class="short">Total</td>
+          <td class="short">{{getTotals().transactions}}</td>
+          <td class="currency">{{getTotals().total | currency}}</td>
+        </tr>
+        </tfoot>
+      </table>
 
-  <h3>By Category</h3>
-  <table *ngIf="transactions && transactions.length > 0">
-    <thead>
-    <tr>
-      <th class="short">Category</th>
-      <th class="short">Transactions</th>
-      <th class="currency">Total</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let summary of getCategorySummaries()">
-      <td class="short">{{summary.category}}</td>
-      <td class="short">{{summary.transactions}}</td>
-      <td class="currency">{{summary.total | currency}}</td>
-    </tr>
-    </tbody>
-    <tfoot>
-    <tr>
-      <td class="short">Total</td>
-      <td class="short">{{getTotals().transactions}}</td>
-      <td class="currency">{{getTotals().total | currency}}</td>
-    </tr>
-    </tfoot>
-  </table>
+      <h3>By Category</h3>
+      <table>
+        <thead>
+        <tr>
+          <th class="short">Category</th>
+          <th class="short">Transactions</th>
+          <th class="currency">Total</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let summary of getCategorySummaries()">
+          <td class="short">{{summary.category}}</td>
+          <td class="short">{{summary.transactions}}</td>
+          <td class="currency">{{summary.total | currency}}</td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+          <td class="short">Total</td>
+          <td class="short">{{getTotals().transactions}}</td>
+          <td class="currency">{{getTotals().total | currency}}</td>
+        </tr>
+        </tfoot>
+      </table>
+    </div>
+    <div class="column">
+      <h3>Expenses by Category</h3>
+      <app-pie-chart #categoryPieChart [config]="config" [elementId]="elementId"></app-pie-chart>
+    </div>
+  </div>
 
   <h2>Transactions</h2>
 

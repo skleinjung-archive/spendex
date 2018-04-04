@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
 import {TransactionService} from "../../service/transaction.service";
 import {Transaction} from "../../model/transaction";
 import "rxjs/add/operator/finally";
@@ -8,23 +8,31 @@ import {WeekSummary} from "../../model/week-summary";
 import {forEach} from "@angular/router/src/utils/collection";
 import {Totals} from "../../model/totals";
 import {CategorySummary} from "../../model/category-summary";
+import {PieChartConfig} from "../../model/pie-chart-config";
+import {PieChartComponent} from "../pie-chart/pie-chart.component";
 
 @Component({
   selector: 'app-transactions',
   templateUrl: './transactions.component.html',
-  styleUrls: ['./transactions.component.css']
+  styleUrls: ['./transactions.component.css'],
 })
-export class TransactionsComponent implements OnInit {
+export class TransactionsComponent implements OnInit, AfterViewInit {
 
   private static KEY_ENTER = 13;
   private static KEY_ESCAPE = 27;
   private static KEY_DOWN_ARROW = 40;
   private static KEY_UP_ARROW = 38;
 
+  @ViewChild(PieChartComponent)
+  private categoryPieChart: PieChartComponent;
+
   @Input() sortColumn: string;
   @Input() descending: boolean;
   @Input() selectedMonth: number;
   @Input() selectedYear: number;
+
+  config: PieChartConfig;
+  elementId: String;
 
   constructor(
     private transactionService: TransactionService,
@@ -41,14 +49,40 @@ export class TransactionsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getTransactions();
+
+    //Piechart1 Data & Config
+    this.config = new PieChartConfig(null, 0);
+    this.elementId = 'expensesByCategoryChart';
+  }
+
+  ngAfterViewInit(): void {
+    this.redrawChart();
+  }
+
+  redrawChart() {
+    this.categoryPieChart.redrawChart(this.getChartData());
+  }
+
+  getChartData() {
+    const data = [];
+    data.push(['Category', 'Amount']);
+
+    const categorySummaries = this.getCategorySummaries();
+    for (let i = 0; i < categorySummaries.length; i++) {
+      data.push([categorySummaries[i].category, categorySummaries[i].total])
+    }
+
+    return data;
   }
 
   getTotals(): Totals {
     const result = new Totals();
-    for (let i = 0; i < this.transactions.length; i++) {
-      const transaction = this.transactions[i];
-      result.transactions++;
-      result.total += transaction.amount;
+    if (this.transactions) {
+      for (let i = 0; i < this.transactions.length; i++) {
+        const transaction = this.transactions[i];
+        result.transactions++;
+        result.total += transaction.amount;
+      }
     }
 
     return result;
@@ -56,17 +90,19 @@ export class TransactionsComponent implements OnInit {
 
   getWeekSummaries(): WeekSummary[] {
     const summaries = [];
-    for (let i = 0; i < this.transactions.length; i++) {
-      const transaction = this.transactions[i];
-      let summary = summaries[transaction.week];
-      if (summary == null) {
-        summary = new WeekSummary();
-        summary.week = transaction.week;
-        summaries[transaction.week] = summary;
-      }
+    if (this.transactions) {
+      for (let i = 0; i < this.transactions.length; i++) {
+        const transaction = this.transactions[i];
+        let summary = summaries[transaction.week];
+        if (summary == null) {
+          summary = new WeekSummary();
+          summary.week = transaction.week;
+          summaries[transaction.week] = summary;
+        }
 
-      summary.transactions++;
-      summary.total += transaction.amount;
+        summary.transactions++;
+        summary.total += transaction.amount;
+      }
     }
 
     const result = [];
@@ -80,21 +116,23 @@ export class TransactionsComponent implements OnInit {
   getCategorySummaries(): CategorySummary[] {
     const summaries = [];
     const categories = [];
-    for (let i = 0; i < this.transactions.length; i++) {
-      const transaction = this.transactions[i];
-      let summary = summaries[transaction.category];
-      if (summary == null) {
-        summary = new CategorySummary();
-        summary.category = transaction.category;
-        summaries[transaction.category] = summary;
-        categories.push(transaction.category);
+    if (this.transactions) {
+      for (let i = 0; i < this.transactions.length; i++) {
+        const transaction = this.transactions[i];
+        let summary = summaries[transaction.category];
+        if (summary == null) {
+          summary = new CategorySummary();
+          summary.category = transaction.category;
+          summaries[transaction.category] = summary;
+          categories.push(transaction.category);
+        }
+
+        summary.transactions++;
+        summary.total += transaction.amount;
       }
 
-      summary.transactions++;
-      summary.total += transaction.amount;
+      categories.sort();
     }
-
-    categories.sort();
 
     return categories.map((category) => {
       return summaries[category];
@@ -124,6 +162,7 @@ export class TransactionsComponent implements OnInit {
 
   save(transaction: Transaction, categoryCell: HTMLElement) {
     transaction.editing = false;
+    this.redrawChart()
     this.transactionService.saveTransaction(transaction)
       .subscribe(saveResult => {
         categoryCell.classList.add('success');
@@ -175,7 +214,10 @@ export class TransactionsComponent implements OnInit {
     this.loading = true;
     this.transactionService.getTransactions(this.selectedMonth, this.selectedYear, this.sortColumn, this.descending)
       .finally(() => this.loading = false)
-      .subscribe(transactions => this.transactions = transactions)
+      .subscribe(transactions => {
+        this.transactions = transactions;
+        this.redrawChart();
+      })
   }
 
   private moveToPreviousTransaction(transaction: Transaction) {

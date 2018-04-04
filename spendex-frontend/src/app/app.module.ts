@@ -12,6 +12,8 @@ import {AppRoutingModule} from "./app-routing.module";
 import {FormsModule} from "@angular/forms";
 import {MessageService} from "./service/message-service";
 import {MessageComponent} from "./component/message/message.component";
+import {GooglePieChartService} from "./service/google-pie-chart-service";
+import { PieChartComponent } from './component/pie-chart/pie-chart.component';
 
 
 @NgModule({
@@ -20,7 +22,8 @@ import {MessageComponent} from "./component/message/message.component";
     MessageComponent,
     TransactionsComponent,
     FileUploadComponent,
-    TransactionUploadComponent
+    TransactionUploadComponent,
+    PieChartComponent
   ],
   imports: [
     BrowserModule,
@@ -30,7 +33,8 @@ import {MessageComponent} from "./component/message/message.component";
   ],
   providers: [
     TransactionService,
-    MessageService
+    MessageService,
+    GooglePieChartService
   ],
   bootstrap: [AppComponent]
 })
