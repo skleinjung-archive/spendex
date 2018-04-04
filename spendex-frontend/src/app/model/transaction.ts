@@ -6,6 +6,7 @@ export class Transaction {
   amount: number;
   description: string;
   category: string;
+  originalCategory: string;
   editing: boolean;
 
   constructor() {

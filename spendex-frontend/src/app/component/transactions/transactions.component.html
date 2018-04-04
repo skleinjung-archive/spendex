@@ -45,7 +45,7 @@
         <td class="currency">{{transaction.amount | currency}}</td>
         <td class="short">
           <div [hidden]="!transaction.editing">
-            <input #categoryInput id="{{transaction.id}}" [(ngModel)]="transaction.category" (click)="categoryInput.select()" (keypress)="onKeyPress($event, transaction)"/>
+            <input #categoryInput id="{{'category-' + transaction.id}}" [(ngModel)]="transaction.category" (click)="categoryInput.select()" (keyup)="onKeyUp($event, transaction)"/>
             <a href="javascript:void(0)" (click)="cancelEditing(transaction)"><img src="../../../assets/img/cancel.png" width="16px" height="16px"/></a>
             <a href="javascript:void(0)" (click)="save(transaction)"><img src="../../../assets/img/checkmark.png" width="16px" height="16px"/></a>
           </div>
