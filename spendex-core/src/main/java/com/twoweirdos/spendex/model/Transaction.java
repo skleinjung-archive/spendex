@@ -2,6 +2,7 @@ package com.twoweirdos.spendex.model;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -20,6 +21,7 @@ public class Transaction {
     @Column(name = "transaction_date")
     private Date date;
 
+    private int week;
     private BigDecimal amount;
     private String description;
     private String category;
@@ -54,6 +56,15 @@ public class Transaction {
 
     public void setDate(Date date) {
         this.date = date;
+
+        if (date != null) {
+            Calendar ca1 = Calendar.getInstance();
+            ca1.setTime(date);
+            ca1.setMinimalDaysInFirstWeek(1);
+            week = ca1.get(Calendar.WEEK_OF_MONTH);
+        } else {
+            week = 0;
+        }
     }
 
     public BigDecimal getAmount() {
@@ -78,6 +89,10 @@ public class Transaction {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public int getWeek() {
+        return week;
     }
 
     @Override

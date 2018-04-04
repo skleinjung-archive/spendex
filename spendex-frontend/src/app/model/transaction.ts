@@ -3,6 +3,7 @@ export class Transaction {
   uploadedFileName: string;
   dateString: string;
   date: Date;
+  week: number;
   amount: number;
   description: string;
   category: string;

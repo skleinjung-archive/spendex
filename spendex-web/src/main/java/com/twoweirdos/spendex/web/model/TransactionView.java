@@ -15,6 +15,7 @@ public class TransactionView {
     private long id;
     private String uploadedFileName;
     private String dateString;
+    private int week;
     private BigDecimal amount;
     private String description;
     private String category;
@@ -23,6 +24,7 @@ public class TransactionView {
         id = transaction.getId();
         uploadedFileName = transaction.getUploadedFile().getFilename();
         dateString = dateFormat.format(transaction.getDate());
+        week = transaction.getWeek();
         amount = transaction.getAmount();
         description = transaction.getDescription();
         category = transaction.getCategory();
@@ -46,6 +48,14 @@ public class TransactionView {
 
     public void setDateString(String dateString) {
         this.dateString = dateString;
+    }
+
+    public int getWeek() {
+        return week;
+    }
+
+    public void setWeek(int week) {
+        this.week = week;
     }
 
     public BigDecimal getAmount() {

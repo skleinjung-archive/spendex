@@ -11,6 +11,7 @@ CREATE TABLE spendex_transaction (
   id               INT     NOT NULL AUTO_INCREMENT PRIMARY KEY,
   uploaded_file_id INT     NOT NULL,
   transaction_date DATE    NOT NULL,
+  week             INT     NOT NULL,
   amount           DECIMAL NOT NULL,
   description      VARCHAR(512),
   category         VARCHAR(128),
