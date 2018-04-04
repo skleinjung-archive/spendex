@@ -12,6 +12,7 @@ import java.util.Date;
 public class TransactionView {
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
+    private long id;
     private String uploadedFileName;
     private String dateString;
     private BigDecimal amount;
@@ -19,11 +20,16 @@ public class TransactionView {
     private String category;
 
     public TransactionView(Transaction transaction) {
+        id = transaction.getId();
         uploadedFileName = transaction.getUploadedFile().getFilename();
         dateString = dateFormat.format(transaction.getDate());
         amount = transaction.getAmount();
         description = transaction.getDescription();
         category = transaction.getCategory();
+    }
+
+    public long getId() {
+        return id;
     }
 
     public String getUploadedFileName() {

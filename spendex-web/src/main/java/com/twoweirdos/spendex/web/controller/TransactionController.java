@@ -141,6 +141,7 @@ public class TransactionController {
         int rowCount = 0;
         for (Transaction transaction : transactions) {
             log.info(transaction.toString());
+            transaction.setCategory("Uncategorized");
             transaction.setUploadedFile(uploadedFile);
             rowCount++;
         }

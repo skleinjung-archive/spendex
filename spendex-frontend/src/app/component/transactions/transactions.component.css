@@ -36,3 +36,25 @@ th.desc {
   font-weight: bold;
   font-style: italic;
 }
+
+.date, .currency {
+  width: 80px;
+  text-align: center;
+}
+
+.short {
+  width: 150px;
+  text-align: center;
+}
+
+.extraLong {
+  text-align: left;
+}
+th.extraLong {
+  padding-left: 4px;
+}
+
+td a {
+  display: inline-block;
+  float: right;
+}

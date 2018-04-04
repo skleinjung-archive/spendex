@@ -33,15 +33,28 @@
   <table>
     <thead>
       <tr>
-        <th (click)="sortBy('date')" [ngClass]="{asc: sortColumn === 'date' && !descending, desc: sortColumn === 'date' && descending}">Date</th>
-        <th (click)="sortBy('amount')" [ngClass]="{asc: sortColumn === 'amount' && !descending, desc: sortColumn === 'amount' && descending}">Amount</th>
-        <th (click)="sortBy('description')" [ngClass]="{asc: sortColumn === 'description' && !descending, desc: sortColumn === 'description' && descending}">Description</th>
+        <th class="date" (click)="sortBy('date')" [ngClass]="{asc: sortColumn === 'date' && !descending, desc: sortColumn === 'date' && descending}">Date</th>
+        <th class="currency" (click)="sortBy('amount')" [ngClass]="{asc: sortColumn === 'amount' && !descending, desc: sortColumn === 'amount' && descending}">Amount</th>
+        <th class="short" (click)="sortBy('category')" [ngClass]="{asc: sortColumn === 'category' && !descending, desc: sortColumn === 'category' && descending}">Category</th>
+        <th class="extraLong" (click)="sortBy('description')" [ngClass]="{asc: sortColumn === 'description' && !descending, desc: sortColumn === 'description' && descending}">Description</th>
       </tr>
     </thead>
     <tbody *ngIf="transactions">
       <tr *ngFor="let transaction of transactions">
-        <td>{{transaction.date | date:'MM/dd/yyyy'}}</td>
-        <td>{{transaction.amount | currency}}</td>
+        <td class="date">{{transaction.date | date:'MM/dd/yyyy'}}</td>
+        <td class="currency">{{transaction.amount | currency}}</td>
+        <td class="short">
+          <div [hidden]="!transaction.editing">
+            <input #categoryInput id="{{transaction.id}}" [(ngModel)]="transaction.category" (click)="categoryInput.select()" (keypress)="onKeyPress($event, transaction)"/>
+            <a href="javascript:void(0)" (click)="cancelEditing(transaction)"><img src="../../../assets/img/cancel.png" width="16px" height="16px"/></a>
+            <a href="javascript:void(0)" (click)="save(transaction)"><img src="../../../assets/img/checkmark.png" width="16px" height="16px"/></a>
+          </div>
+
+          <div *ngIf="!transaction.editing" (click)="beginEditing(transaction, categoryInput)">
+            <span>{{transaction.category}}</span>
+            <a href="javascript:void(0)"><img src="../../../assets/svg/pencil.svg" width="16px" height="16px"/></a>
+          </div>
+        </td>
         <td>{{transaction.description}}</td>
       </tr>
     </tbody>

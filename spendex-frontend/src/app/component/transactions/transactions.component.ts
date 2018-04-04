@@ -43,6 +43,29 @@ export class TransactionsComponent implements OnInit {
     this.getTransactions();
   }
 
+  beginEditing(transaction: Transaction, input: HTMLInputElement) {
+    transaction.editing = true;
+
+    setTimeout(() =>{
+      input.select();
+      input.focus();
+    }, 100);
+  }
+
+  save(transaction: Transaction) {
+    transaction.editing = false;
+  }
+
+  cancelEditing(transaction: Transaction) {
+    transaction.editing = false;
+  }
+
+  onKeyPress(event: KeyboardEvent, transaction: Transaction) {
+    if (event.keyCode === 13) {
+      this.save(transaction);
+    }
+  }
+
   getYears(): number[] {
     const result = [];
     for (let i = 2017; i <= this.getCurrentYear(); i++) {
