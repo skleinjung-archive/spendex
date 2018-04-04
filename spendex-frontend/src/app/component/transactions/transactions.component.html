@@ -23,13 +23,65 @@
   </select>
 </div>
 
-<h2>Transactions</h2>
+<div *ngIf="transactions && transactions.length > 0">
+  <h2>Summary</h2>
+
+  <h3>By Week</h3>
+  <table *ngIf="transactions && transactions.length > 0">
+    <thead>
+      <tr>
+        <th class="short">Week</th>
+        <th class="short">Transactions</th>
+        <th class="currency">Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let summary of getWeekSummaries()">
+        <td class="short">Week {{summary.week}}</td>
+        <td class="short">{{summary.transactions}}</td>
+        <td class="currency">{{summary.total | currency}}</td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td class="short">Total</td>
+        <td class="short">{{getTotals().transactions}}</td>
+        <td class="currency">{{getTotals().total | currency}}</td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <h3>By Category</h3>
+  <table *ngIf="transactions && transactions.length > 0">
+    <thead>
+    <tr>
+      <th class="short">Category</th>
+      <th class="short">Transactions</th>
+      <th class="currency">Total</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let summary of getCategorySummaries()">
+      <td class="short">{{summary.category}}</td>
+      <td class="short">{{summary.transactions}}</td>
+      <td class="currency">{{summary.total | currency}}</td>
+    </tr>
+    </tbody>
+    <tfoot>
+    <tr>
+      <td class="short">Total</td>
+      <td class="short">{{getTotals().transactions}}</td>
+      <td class="currency">{{getTotals().total | currency}}</td>
+    </tr>
+    </tfoot>
+  </table>
+
+  <h2>Transactions</h2>
 
 <!--<div class="loading" *ngIf="loading">-->
   <!--<img src="../../../assets/svg/spinner.svg"/>-->
 <!--</div>-->
 
-<div *ngIf="transactions && transactions.length > 0">
   <table>
     <thead>
       <tr>

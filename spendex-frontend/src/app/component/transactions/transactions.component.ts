@@ -4,6 +4,10 @@ import {Transaction} from "../../model/transaction";
 import "rxjs/add/operator/finally";
 import "rxjs/add/operator/delay";
 import {MessageService} from "../../service/message-service";
+import {WeekSummary} from "../../model/week-summary";
+import {forEach} from "@angular/router/src/utils/collection";
+import {Totals} from "../../model/totals";
+import {CategorySummary} from "../../model/category-summary";
 
 @Component({
   selector: 'app-transactions',
@@ -37,6 +41,64 @@ export class TransactionsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getTransactions();
+  }
+
+  getTotals(): Totals {
+    const result = new Totals();
+    for (let i = 0; i < this.transactions.length; i++) {
+      const transaction = this.transactions[i];
+      result.transactions++;
+      result.total += transaction.amount;
+    }
+
+    return result;
+  }
+
+  getWeekSummaries(): WeekSummary[] {
+    const summaries = [];
+    for (let i = 0; i < this.transactions.length; i++) {
+      const transaction = this.transactions[i];
+      let summary = summaries[transaction.week];
+      if (summary == null) {
+        summary = new WeekSummary();
+        summary.week = transaction.week;
+        summaries[transaction.week] = summary;
+      }
+
+      summary.transactions++;
+      summary.total += transaction.amount;
+    }
+
+    const result = [];
+    summaries.forEach((summary) => {
+      result.push(summary);
+    });
+
+    return result;
+  }
+
+  getCategorySummaries(): CategorySummary[] {
+    const summaries = [];
+    const categories = [];
+    for (let i = 0; i < this.transactions.length; i++) {
+      const transaction = this.transactions[i];
+      let summary = summaries[transaction.category];
+      if (summary == null) {
+        summary = new CategorySummary();
+        summary.category = transaction.category;
+        summaries[transaction.category] = summary;
+        categories.push(transaction.category);
+      }
+
+      summary.transactions++;
+      summary.total += transaction.amount;
+    }
+
+    categories.sort();
+
+    return categories.map((category) => {
+      return summaries[category];
+    });
   }
 
   sortBy(column: string) {

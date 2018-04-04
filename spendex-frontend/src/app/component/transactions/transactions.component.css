@@ -11,6 +11,10 @@
   margin-right: 25px;
 }
 
+table {
+  border-collapse: collapse;
+}
+
 th {
   cursor: pointer;
   padding: 4px 32px;
@@ -29,14 +33,26 @@ th.desc {
   background: #7c53ae url('../../../assets/img/sort-desc.png') no-repeat right 8px center;
 }
 
-td {
-  border-radius: 10px;
+thead {
+  border: 1px solid #221138;
+}
+
+tbody td {
   background-color: white;
   transition: background-color 750ms linear;
 }
-td.success {
+tbody td.success {
   background-color: #71D65C;
   transition: background-color 250ms linear;
+}
+
+tfoot {
+  border-top: 1px solid #221138;
+}
+
+tfoot td {
+  background-color: #ccc;
+  font-weight: bold;
 }
 
 .no-results {
