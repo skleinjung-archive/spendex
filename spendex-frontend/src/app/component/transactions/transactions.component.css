@@ -1,8 +1,7 @@
-.column-container {
-  display: flex;
-}
-.column {
-  flex: 1 0 auto;
+.summary-section {
+  display: inline-block;
+  vertical-align: top;
+  margin-right: 50px;
 }
 
 .loading {
