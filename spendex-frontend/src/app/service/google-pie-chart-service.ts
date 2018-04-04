@@ -14,8 +14,15 @@ export class GooglePieChartService extends GoogleChartsBaseService {
     const options = {
       title: config.title,
       pieHole: config.pieHole,
+      is3D: config.is3d,
+      chartArea:{left:20,top:0,width:'100%',height:'100%'},
+      legend: {position: 'labeled',  alignment: 'center', textStyle: {fontSize: 16, color: '#797979'}},
+      pieSliceText: 'value'
     };
 
-    this.buildChart(data, chartFunc, options);
+    this.buildChart(data, chartFunc, options, (dataTable) => {
+      const formatter = new google.visualization.NumberFormat({prefix: '$'});
+      formatter.format(dataTable, 1);
+    });
   }
 }

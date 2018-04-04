@@ -52,6 +52,7 @@ export class TransactionsComponent implements OnInit, AfterViewInit {
 
     //Piechart1 Data & Config
     this.config = new PieChartConfig(null, 0);
+    this.config.is3d = false;
     this.elementId = 'expensesByCategoryChart';
   }
 
@@ -69,7 +70,10 @@ export class TransactionsComponent implements OnInit, AfterViewInit {
 
     const categorySummaries = this.getCategorySummaries();
     for (let i = 0; i < categorySummaries.length; i++) {
-      data.push([categorySummaries[i].category, categorySummaries[i].total])
+      data.push([
+          categorySummaries[i].category,
+          categorySummaries[i].total
+        ]);
     }
 
     return data;
