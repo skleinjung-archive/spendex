@@ -60,14 +60,14 @@ export class TransactionsComponent implements OnInit {
     }, 50);
   }
 
-  save(transaction: Transaction) {
+  save(transaction: Transaction, categoryCell: HTMLElement) {
     transaction.editing = false;
     this.transactionService.saveTransaction(transaction)
       .subscribe(saveResult => {
-        this.messageService.showSuccess(saveResult.message);
+        categoryCell.classList.add('success');
         setTimeout(() => {
-          this.messageService.clearMessage();
-        }, 2500);
+          categoryCell.classList.remove('success');
+        }, 250);
       });
   }
 
@@ -77,9 +77,9 @@ export class TransactionsComponent implements OnInit {
     transaction.originalCategory = null;
   }
 
-  onKeyUp(event: KeyboardEvent, transaction: Transaction) {
+  onKeyUp(event: KeyboardEvent, transaction: Transaction, categoryCell: HTMLElement) {
     if (TransactionsComponent.KEY_ENTER === event.which) {
-      this.save(transaction);
+      this.save(transaction, categoryCell);
       this.moveToNextTransaction(transaction);
     } else if (TransactionsComponent.KEY_ESCAPE === event.which) {
       this.cancelEditing(transaction);
@@ -153,8 +153,10 @@ export class TransactionsComponent implements OnInit {
   }
 
   private findCategoryInputForTransaction(transaction: Transaction): HTMLInputElement {
-    return <HTMLInputElement>document.getElementById('category-' + transaction.id);
+    return <HTMLInputElement>document.getElementById('category-input-' + transaction.id);
   }
 
-
+  private findTableCellForTransaction(transaction: Transaction): HTMLElement {
+    return document.getElementById('category-cell-' + transaction.id);
+  }
 }
