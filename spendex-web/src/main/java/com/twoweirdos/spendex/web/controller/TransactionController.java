@@ -6,6 +6,8 @@ import com.twoweirdos.spendex.model.UploadedFile;
 import com.twoweirdos.spendex.repository.TransactionRepository;
 import com.twoweirdos.spendex.repository.UploadedFileRepository;
 import com.twoweirdos.spendex.service.CsvService;
+import com.twoweirdos.spendex.web.model.SaveResult;
+import com.twoweirdos.spendex.web.model.TransactionUpdate;
 import com.twoweirdos.spendex.web.model.TransactionView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +17,7 @@ import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityNotFoundException;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -78,6 +81,22 @@ public class TransactionController {
         Sort sort = new Sort(descending ? Sort.Direction.DESC : Sort.Direction.ASC, sortColumn);
         List<Transaction> transactions = transactionRepository.findByDateBetween(startDate, endDate, sort);
         return transactions.stream().map(TransactionView::new).collect(Collectors.toList());
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> updateTransaction(@PathVariable long id, @RequestBody TransactionUpdate update) {
+        try {
+            Transaction transaction = transactionRepository.getOne(id);
+            transaction.setCategory(update.getCategory());
+            transactionRepository.save(transaction);
+
+            SaveResult result = new SaveResult();
+            result.setStatus(SaveResult.Status.Success);
+            result.setMessage("Transaction #" + id + " updated successfully.");
+            return ResponseEntity.ok(result);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PostMapping

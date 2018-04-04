@@ -31,6 +31,11 @@ export class MessageService {
     this.showMessage(MessageType.ERROR, message);
   }
 
+  clearMessage(): void {
+    this._messageType = null;
+    this._message = null;
+  }
+
   get messageType(): MessageType {
     return this._messageType;
   }

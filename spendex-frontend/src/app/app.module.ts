@@ -10,11 +10,14 @@ import {HttpClientModule} from "@angular/common/http";
 import { TransactionUploadComponent } from './component/transaction-upload/transaction-upload.component';
 import {AppRoutingModule} from "./app-routing.module";
 import {FormsModule} from "@angular/forms";
+import {MessageService} from "./service/message-service";
+import {MessageComponent} from "./component/message/message.component";
 
 
 @NgModule({
   declarations: [
     AppComponent,
+    MessageComponent,
     TransactionsComponent,
     FileUploadComponent,
     TransactionUploadComponent
@@ -25,7 +28,10 @@ import {FormsModule} from "@angular/forms";
     HttpClientModule,
     AppRoutingModule
   ],
-  providers: [TransactionService],
+  providers: [
+    TransactionService,
+    MessageService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

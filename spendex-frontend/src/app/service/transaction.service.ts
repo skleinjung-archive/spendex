@@ -4,6 +4,7 @@ import {TransactionUploadResult} from "../model/transaction-upload-result";
 import {Observable} from "rxjs/Observable";
 import {Transaction} from "../model/transaction";
 import "rxjs/add/operator/do";
+import {SaveResult} from "../model/save-result";
 
 @Injectable()
 export class TransactionService {
@@ -19,6 +20,13 @@ export class TransactionService {
           transactions[i].date = TransactionService.parseDate(transactions[i].dateString);
         }
       });
+  }
+
+  public saveTransaction(transaction: Transaction): Observable<SaveResult> {
+    return this.http.put<SaveResult>(this._baseUrl + '/' + transaction.id, {
+      id: transaction.id,
+      category: transaction.category
+    });
   }
 
   public uploadFiles(filesToUpload: File[]): Observable<TransactionUploadResult> {

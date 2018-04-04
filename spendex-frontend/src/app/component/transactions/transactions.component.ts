@@ -3,6 +3,7 @@ import {TransactionService} from "../../service/transaction.service";
 import {Transaction} from "../../model/transaction";
 import "rxjs/add/operator/finally";
 import "rxjs/add/operator/delay";
+import {MessageService} from "../../service/message-service";
 
 @Component({
   selector: 'app-transactions',
@@ -23,6 +24,7 @@ export class TransactionsComponent implements OnInit {
 
   constructor(
     private transactionService: TransactionService,
+    private messageService: MessageService
   ) {
     this.sortColumn = 'date';
     this.descending = false;
@@ -60,6 +62,13 @@ export class TransactionsComponent implements OnInit {
 
   save(transaction: Transaction) {
     transaction.editing = false;
+    this.transactionService.saveTransaction(transaction)
+      .subscribe(saveResult => {
+        this.messageService.showSuccess(saveResult.message);
+        setTimeout(() => {
+          this.messageService.clearMessage();
+        }, 2500);
+      });
   }
 
   cancelEditing(transaction: Transaction) {
